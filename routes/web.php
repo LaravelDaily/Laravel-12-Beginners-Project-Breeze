@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\IsAdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,7 +18,8 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->middleware(['verified'])->name('dashboard');
 
-    Route::resource('categories', CategoryController::class);
+    Route::resource('categories', CategoryController::class)
+        ->middleware(IsAdminMiddleware::class);
 });
 
 require __DIR__.'/auth.php';
